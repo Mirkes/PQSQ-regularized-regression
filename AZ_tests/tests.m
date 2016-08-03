@@ -1,5 +1,5 @@
-prostate = load('breast.txt');
-X = prostate(:,2:end); Y = prostate(:,1); Z = zscore(X);
+breast = load('breast.txt');
+X = breast(:,2:end); Y = breast(:,1); Z = zscore(X);
 display(sprintf('Breast Cancer(%i,%i)',size(X,1),size(X,2)));
 display('MATLAB lasso:');
 tic; [B,FI] = lasso(Z,Y); toc; lassoPlot(B,FI);
@@ -32,5 +32,47 @@ tic; [B,FI] = lasso(Z,Y); toc; lassoPlot(B,FI);
 parkinson = load('parkinson.txt');
 X = parkinson(:,3:end); Y = parkinson(:,1); Z = zscore(X);
 display(sprintf('\nParkinson(%i,%i)',size(X,1),size(X,2)));
+display('MATLAB lasso:');
+tic; [B,FI] = lasso(Z,Y); toc; lassoPlot(B,FI);
+
+crime = load('crime.txt');
+X = crime(:,1:99); Y = crime(:,100); Z = zscore(X);
+display(sprintf('\nCrime(%i,%i)',size(X,1),size(X,2)));
+display('MATLAB lasso:');
+tic; [B,FI] = lasso(Z,Y); toc; lassoPlot(B,FI);
+
+crime_small = load('crime.txt');
+ind = [1:4:1994];
+X = crime(ind,1:99); Y = crime(ind,100); Z = zscore(X);
+display(sprintf('\nCrime reduced(%i,%i)',size(X,1),size(X,2)));
+display('MATLAB lasso:');
+tic; [B,FI] = lasso(Z,Y); toc; lassoPlot(B,FI);
+
+
+crime_small = load('crime.txt');
+ind = [1:3:1994];
+X = crime(ind,1:99); Y = crime(ind,100); Z = zscore(X);
+display(sprintf('\nCrime reduced(%i,%i)',size(X,1),size(X,2)));
+display('MATLAB lasso:');
+tic; [B,FI] = lasso(Z,Y); toc; lassoPlot(B,FI);
+
+crime_small = load('crime.txt');
+ind = [1:5:1994];
+X = crime(ind,1:99); Y = crime(ind,100); Z = zscore(X);
+display(sprintf('\nCrime reduced(%i,%i)',size(X,1),size(X,2)));
+display('MATLAB lasso:');
+tic; [B,FI] = lasso(Z,Y); toc; lassoPlot(B,FI);
+
+crime_small = load('crime.txt');
+ind = [1:10:2000];
+X = crime(ind,1:99); Y = crime(ind,100); Z = zscore(X);
+display(sprintf('\nCrime reduced(%i,%i)',size(X,1),size(X,2)));
+display('MATLAB lasso:');
+tic; [B,FI] = lasso(Z,Y); toc; lassoPlot(B,FI);
+
+crime_small = load('crime.txt');
+ind = [1:20:2000];
+X = crime(ind,1:99); Y = crime(ind,100); Z = zscore(X);
+display(sprintf('\nCrime reduced(%i,%i)',size(X,1),size(X,2)));
 display('MATLAB lasso:');
 tic; [B,FI] = lasso(Z,Y); toc; lassoPlot(B,FI);
