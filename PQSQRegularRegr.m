@@ -301,7 +301,7 @@ function [B, FitInfo] = PQSQRegularRegr(X, Y, varargin)
         if ~isreal(lambda) || any(lambda < 0)
             error('Incorrect value for argument Lambda. Lambda must be vector of nonnegative real values.');
         end
-        lambda = sort(lambda(:),1,'descend')';
+        %lambda = sort(lambda(:),1,'descend')';
         nLambda = size(lambda,2);
     end
     
@@ -456,6 +456,7 @@ function [B, FitInfo] = PQSQRegularRegr(X, Y, varargin)
     %Prepare epsilon
     if epsilon == 0
         epsilon = xMax/32;
+        %epsilon = ;
     elseif ~isfinite(epsilon)
         epsilon = -xMax/32;
     end
@@ -468,6 +469,14 @@ function [B, FitInfo] = PQSQRegularRegr(X, Y, varargin)
         else
             th = -epsilon*min([1,lambda(k)]);
         end
+        
+        %threshold is defined as middle of the smallest interval
+        %th = potFunc(1).Intervals(2)/2;
+        %threshold is defined as the smallest coefficient in simple linear
+        %regression (such that for lambda=0 we would have all parameters
+        %th = min(abs(x))*(1-0.1);
+        
+        %display(sprintf('epsilon = %f',th));
         %Store threshold
         FitInfo.Epsilon(k) = th;
         %Solve problem
@@ -505,6 +514,7 @@ function b = fitModel(M, R, lambda, b, pFunc, epsilon)
     q = qOld;
     indOld = abs(b)<epsilon;
     %Main loop of fitting
+    count = 0;
     while true
         %Form new multiindeces
         d = abs(b);
@@ -532,7 +542,9 @@ function b = fitModel(M, R, lambda, b, pFunc, epsilon)
         RR(ind) = 0;
         %Solve new SLAE
         b = (A+diag(d))\RR;
+        count = count+1;
     end
+    %display(sprintf('N of iterations %i',count));
 end
 
 function [A,B] = computeABcoefficients(intervals, potential_function_handle)

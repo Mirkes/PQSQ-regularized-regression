@@ -1,5 +1,6 @@
 %Test standard lasso
-[B,FitInfo] = lasso(Prostate(:,1:8),Prostate(:,9),'Alpha',0.5);
+%[B,FitInfo] = lasso(Prostate(:,1:8),Prostate(:,9),'Alpha',0.5);
+[B,FitInfo] = lasso(Prostate(:,1:8),Prostate(:,9));
 %Test PQSQRegularRegr lasso without trimming
 [PqB,PqFitInfo] = PQSQRegularRegr(Prostate(:,1:8),Prostate(:,9));
 %Test PQSQRegularRegr lasso with possible trimming

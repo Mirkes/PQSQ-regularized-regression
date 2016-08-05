@@ -1,0 +1,1 @@
+n = size(B,2); nonz1 = sum(B(:,:)~=0); nonz2 = sum(BPQ(:,:)~=0); plot(nonz1+rand(1,n),nonz2+rand(1,n),'ko');

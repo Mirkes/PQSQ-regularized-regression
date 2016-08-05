@@ -463,7 +463,7 @@ function [B, FitInfo] = PQSQRegularRegr(X, Y, varargin)
     end
 
         thInterval = potFunc(1).Intervals(2)/2;
-        thMinCoeff = min(abs(x))*(1-0.1);
+        %thMinCoeff = min(abs(x))*(1-0.1);
         %if thInterval<thMinCoeff
         %    display(sprintf('Epsilon is chosen as half smallest interval %f (vs %f)',thInterval,thMinCoeff));
         %else
@@ -473,11 +473,7 @@ function [B, FitInfo] = PQSQRegularRegr(X, Y, varargin)
         epsilon = thInterval;
         % here we deal with the case when the black hole is "too powerfull"
         % and collapses most of regression coefficients even without regularization
-        epsilonNew = checkEpsilon(M,R,x,potFunc,epsilon);
-        if abs(epsilonNew-epsilon)/epsilon>1e-6
-            display(sprintf('Epsilon was corrected to %f (smallest regression coeff %f, half minor interval %f)',epsilonNew,thMinCoeff,thInterval));
-            epsilon = epsilonNew;
-        end
+        epsilon = checkEpsilon(M,R,x,potFunc,epsilon);
         
         %display(sprintf('thInterval = %f',thInterval));
     
@@ -595,14 +591,5 @@ function [A,B] = computeABcoefficients(intervals, potential_function_handle)
 end
 
 function [eps] = checkEpsilon(M,R,x,potFunc,epsilon)
-    b = fitModel(M, R, 0, x, potFunc, epsilon);
-    n = size(b,1);
-    nz = sum(abs(b)>0);
-    %display(sprintf('n=%f, nz=%f',n,nz));
-    if nz/n<0.5
-        eps = epsilon/2;
-        eps = checkEpsilon(M,R,x,potFunc,eps);
-    else
-        eps = epsilon;
-    end
+    b = 
 end
