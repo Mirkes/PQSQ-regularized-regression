@@ -51,7 +51,7 @@ compareMSE; title('Crime reduced (200 obj, 100 attr)','FontSize',14);
 
 display(sprintf('\n\n========\nForest fires:'));
 ffires = load('..\AZ_tests\ffires.txt');
-X = ffires(:,1:8); Y = ffires(:,10); Z = zscore(X); tic; [B,FI] = lasso(Z,Y); toc;
+X = ffires(:,1:8); Y = zscore(ffires(:,10)); Z = zscore(X); tic; [B,FI] = lasso(Z,Y); toc;
 scaleLambdaRange; compareWithLasso; 
 %figure; 
 subplot(4,2,7);
@@ -59,7 +59,7 @@ compareMSE; title('Forest fires (517 obj, 8 attr)','FontSize',14);
 
 display(sprintf('\n\n========\nRandom regression (1000 obj, 250 attr):'));
 rnd1000_250 = load('..\AZ_tests\rnd1000_250.txt');
-X = rnd1000_250(:,2:end); Y = rnd1000_250(:,1); Z = zscore(X); tic; [B,FI] = lasso(Z,Y); toc;
+X = rnd1000_250(:,2:end); Y = zscore(rnd1000_250(:,1)); Z = zscore(X); tic; [B,FI] = lasso(Z,Y); toc;
 scaleLambdaRange; compareWithLasso; 
 %figure; 
 subplot(4,2,8);

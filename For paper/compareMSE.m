@@ -39,9 +39,9 @@ for k=0:n1
     if(size(err,2)>0)
     for i=1:size(err,2)
         if logPlot        
-            semilogy(k,err(i),'rx','MarkerSize',10); hold on;
+            semilogy(k,err(i),'rs','MarkerSize',10); hold on;
         else
-            plot(k,err(i),'rx','MarkerSize',10); hold on;
+            plot(k,err(i),'rs','MarkerSize',10); hold on;
         end;
         maxv = max(maxv,err(i));
         minv = min(minv,err(i));
@@ -60,9 +60,9 @@ for k=0:n1
     if(size(err,2)>0)
     for i=1:size(err,2)
         if logPlot        
-            semilogy(k,err(i),'mx','MarkerSize',10); hold on;
+            semilogy(k,err(i),'m+','MarkerSize',10); hold on;
         else
-            plot(k,err(i),'mx','MarkerSize',10); hold on;
+            plot(k,err(i),'m+','MarkerSize',10); hold on;
         end;
         maxv = max(maxv,err(i));
         minv = min(minv,err(i));
@@ -77,11 +77,11 @@ for k=0:n1
     end
 end
 
-plot(mse1k,mse1,'b-','LineWidth',2);
-plot(mse2k,mse2,'r-','LineWidth',2);
-plot(mse3k,mse3,'m-','LineWidth',2);
+plot(mse1k,mse1,'b-','LineWidth',1.5);
+plot(mse2k,mse2,'r-','LineWidth',1.5);
+plot(mse3k,mse3,'m-','LineWidth',1.5);
 
-t = minv-(maxv-minv)*2;
+t = minv-(maxv-minv)*5;
 t = max(0,t);
 ylim([t maxv]);
 
