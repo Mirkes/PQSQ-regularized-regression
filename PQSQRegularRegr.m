@@ -553,25 +553,24 @@ function [B, FitInfo] = PQSQRegularRegr(X, Y, varargin)
     end
     %Normalise weights
     weights = weights/sum(weights);
-    
+
     %Centralize
     meanX = weights*X;
-    X = bsxfun(@minus,X,meanX);
+    Xs = bsxfun(@minus,X,meanX);
     meanY = weights*Y;
-    Y = Y-meanY;
-    
+    Ys = Y-meanY;
     %Standardize
-    SX = sqrt(weights*(X.^2));
+    SX = sqrt(weights*(Xs.^2));
     SX(SX==0) = 1;
-    SY = sqrt(weights*(Y.^2));
-    X = bsxfun(@rdivide, X, SX);
-    Y = Y/SY;
+    SY = sqrt(weights*(Ys.^2));
+    Xs = bsxfun(@rdivide, Xs, SX);
+    Ys = Ys/SY;
     %Weighted version of X
-    XW = bsxfun(@times, X, weights')';
+    XW = bsxfun(@times, Xs, weights')';
     %The first matrix in SLAE
-    M = XW*X;
+    M = XW*Xs;
     %The right hand side for SLAE
-    R = XW*Y;
+    R = XW*Ys;
 
     %Lambda
     if isempty(lambda)
@@ -657,7 +656,7 @@ function [B, FitInfo] = PQSQRegularRegr(X, Y, varargin)
             error(['Incorrect number in a "CV" parameters: number of folds',...
                 ' cannot be greater than number of points']);
         end
-        cv = cvpartition(size(X,1),'Kfold',cv);
+        cv = cvpartition(size(Xs,1),'Kfold',cv);
     elseif isa(cv,'cvpartition')
         if strcmpi(cv.Type,'resubstitution')
             cv = 'resubstitution';
@@ -799,7 +798,7 @@ function [B, FitInfo] = PQSQRegularRegr(X, Y, varargin)
     %1. Calculate number of zero coefficients
     FitInfo.DF = sum(B~=0);
     %2. Calculate mean squared error
-    FitInfo.MSE = weights*((bsxfun(@minus,Y,(X*B))*SY).^2);
+    FitInfo.MSE = weights*((bsxfun(@minus,Y,(Xs*B))*SY).^2);
     %3. Denormalisiation of regression coefficietns
     B = bsxfun(@rdivide, B*SY, SX');
     %4. Recalculate denormalized intercepts
@@ -815,7 +814,6 @@ function [B, FitInfo] = PQSQRegularRegr(X, Y, varargin)
         cvMSE = crossval(cvfun,[weights(:) X],Y, ...
             'Partition',cv,'Mcreps',cvReps,'Options',options);
         %Calculate and save statistics of CV
-        cvMSE = cvMSE * SY.^2;
         FitInfo.MSE = mean(cvMSE);
         FitInfo.SE = std(cvMSE) / sqrt(size(cvMSE,1));
         [~, FitInfo.IndexMinMSE] = min(FitInfo.MSE);
@@ -1140,14 +1138,25 @@ function res = modelFitAndPredict(Xtrain,Ytrain,Xtest,Ytest, ...
     %Extract weights from training set
     trainWeights = Xtrain(:,1);
     Xtrain = Xtrain(:,2:end);
+    trainWeights = trainWeights/sum(trainWeights);
+    %Centralize and standardize Xtrain, Ytrain, Xtest and Ytest
+    meanX = trainWeights'*Xtrain;
+    Xs = bsxfun(@minus,Xtrain,meanX);
+    meanY = trainWeights'*Ytrain;
+    Ys = Ytrain-meanY;
     
-    %Calculate matrix and right hand side vector for specified train set
+    %Standardize
+    SX = sqrt(trainWeights'*(Xs.^2));
+    SX(SX==0) = 1;
+    SY = sqrt(trainWeights'*(Ys.^2));
+    Xs = bsxfun(@rdivide, Xs, SX);
+    Ys = Ys/SY;
     %Weighted version of X
-    XW = bsxfun(@times, Xtrain, trainWeights)';
+    XW = bsxfun(@times, Xs, trainWeights)';
     %The first matrix in SLAE
-    M = XW*Xtrain;
+    M = XW*Xs;
     %The right hand side for SLAE
-    R = XW*Ytrain;
+    R = XW*Ys;
     %Solve unregularized problem
     x = M\R;
     %Preallocate array for coefficients
@@ -1161,6 +1170,10 @@ function res = modelFitAndPredict(Xtrain,Ytrain,Xtest,Ytest, ...
     %Extract weights from training set
     testWeights = Xtest(:,1);
     Xtest = Xtest(:,2:end);
-    yFitted = Xtest * B;
+    %standardize Xtest and centralize Ytest
+    Xtest = bsxfun(@rdivide, bsxfun(@minus,Xtest,meanX), SX);
+    Ytest = Ytest - meanY;
+    %Calculate fitted value and renormalize it 
+    yFitted = (Xtest * B) * SY;
     res = testWeights'*(bsxfun(@minus,Ytest,yFitted).^2) / sum(testWeights);
 end
