@@ -1,6 +1,8 @@
 # PQSQ-regularized-regression
 The method of generalized regression regularization through PQSQ technique is presented. This approach includes lasso, elastic net and ridge regression as partial case.
 
+Theory of PQSQ approximation can be found in [wiki](https://github.com/Mirkes/PQSQ-regularized-regression/wiki)
+
 Current MatLab implementation includes several files:
 
 L1 is majorant function for L_1 norm.
