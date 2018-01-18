@@ -2,7 +2,7 @@ function [axh,figh] = PQSQRegularRegrPlot( B, plotData, varargin )
 %PQSQRegularRegrPlot plots coefficient values or goodness of fit of PQSQ
 %   regularised regression fits.
 %
-%   [AXH,FIGH] = PQSQRegularRegrPlot(B, PLOTDATA) creates a Trace Plot
+%   [AXH, FIGH] = PQSQRegularRegrPlot(B, PLOTDATA) creates a Trace Plot
 %       showing the sequence of coefficient values B produced by a
 %       PQSQRegularRegr. B is a P by nLambda matrix of coefficients, with
 %       each column of B representing a set of coefficients estimated by
@@ -10,13 +10,13 @@ function [axh,figh] = PQSQRegularRegrPlot( B, plotData, varargin )
 %       gives access to the axes used to plot the coefficient values B.
 %       FIGH is a handle to the figure window. 
 %
-%   [AXH,FIGH] = PQSQRegularRegrPlot(B) plots all the coefficient values
+%   [AXH, FIGH] = PQSQRegularRegrPlot(B) plots all the coefficient values
 %       contained in B against the L1-norm of B. The L1-norm is the  sum of
 %       the absolute value of  all the coefficients. The plot is also
 %       annotated with the number of non-zero coefficients of B ("df"),
 %       displayed along the top axis of  the plot.
 %
-%   [AXH,FIGH] = PQSQRegularRegrPlot(B,PLOTDATA) creates a plot with
+%   [AXH, FIGH] = PQSQRegularRegrPlot(B,PLOTDATA) creates a plot with
 %       contents dependent on the type of PLOTDATA.
 %
 %           If PLOTDATA is a vector, then PQSQRegularRegrPlot(B,PLOTDATA)

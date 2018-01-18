@@ -110,7 +110,7 @@ function [ res ] = fastRegularisedRegression(X, Y, varargin)
 %           'Sensitivity' means backward feature selection on base of
 %               feature sensitivity.
 %
-%Output variable is record with following fields:
+%Output variable is structure with following fields:
 %   PredictorNames is a cell array of names for the predictor
 %           variables, in the order in which they appear in X. 
 %   MultiValue - array which contains the values of multicollinearity
