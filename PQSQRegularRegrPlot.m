@@ -1,6 +1,6 @@
 function [axh,figh] = PQSQRegularRegrPlot( B, plotData, varargin )
-%PQSQRegularRegrPlot plots coefficient values or goodness of fit of lasso
-%   or elastic net fits.
+%PQSQRegularRegrPlot plots coefficient values or goodness of fit of PQSQ
+%   regularised regression fits.
 %
 %   [AXH,FIGH] = PQSQRegularRegrPlot(B, PLOTDATA) creates a Trace Plot
 %       showing the sequence of coefficient values B produced by a
