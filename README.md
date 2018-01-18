@@ -13,7 +13,7 @@ LLog is natural logarithm majorant function.
 
 LSqrt is square root or L_0.5 quasi norm majorant function.
 
-PQSQRegularRegr calculates PQSQ regularization of linear regression. See [description]( https://github.com/Mirkes/PQSQ-regularized-regression #Lab1)
+PQSQRegularRegr calculates PQSQ regularization of linear regression. See [description](https://github.com/Mirkes/PQSQ-regularized-regression#Lab1)
 
 PQSQRegularRegrPlot plots coefficient values or goodness of fit of PQSQ regularised regression fits. See [description]( https://github.com/Mirkes/PQSQ-regularized-regression #Lab2)
 fastRegularisedRegression perform feature selection for regression which is regularized by Tikhonov regularization (ridge regression) with automated selection of the optimal value of regularization parameter Alpha. See [description]( https://github.com/Mirkes/PQSQ-regularized-regression #Lab3)
