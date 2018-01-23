@@ -324,7 +324,7 @@ function [B, FitInfo] = PQSQRegularRegr(X, Y, varargin)
 %           necessary to specify another value or use pair 
 %           'TrimmingPoint', -2.
 %       'CV' If present, indicates the method used to compute MSE. When
-%           'CV' is a positive integer K, LASSO uses K-fold cross-
+%           'CV' is a positive integer K, PQSQRegularRegr uses K-fold cross-
 %           validation.  Set 'CV' to a cross-validation partition, created
 %           using CVPARTITION, to use other forms of cross-validation. You
 %           cannot use a 'Leaveout' partition with PQSQRegularRegr. When
