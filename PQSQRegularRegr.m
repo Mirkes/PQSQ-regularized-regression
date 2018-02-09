@@ -398,7 +398,7 @@ function [B, FitInfo] = PQSQRegularRegr(X, Y, varargin)
     %Y must be real valued vector without Infs and NaNs and with number of
     %elements equals to n
     if ~isreal(Y) || ~all(isfinite(Y)) || numel(Y)~=n
-        error(['Incorrect value for argument "X". It must be real valued',...
+        error(['Incorrect value for argument "Y". It must be real valued',...
             'vector without Infs and NaNs and with number of elements',...
             'equals to number of rows in X']);
     end
@@ -587,7 +587,7 @@ function [B, FitInfo] = PQSQRegularRegr(X, Y, varargin)
         end
         
         %Calculate lambda maximal (provide all coefficient is zero for
-        %lasso
+        %lasso)
         lambdaMax = max(abs(R))*10;
         
         if nLambda==1
@@ -649,6 +649,15 @@ function [B, FitInfo] = PQSQRegularRegr(X, Y, varargin)
         epsilon = searchEpsilon(M, R, t, tmp(end), tmp(1));
     end
     
+    % cvReps
+    if ~isscalar(cvReps) || ~isreal(cvReps) || ~isfinite(cvReps) || cvReps < 1
+        error(['If the parameter "CV" is a "holdout" partition, "MCReps"'...
+            ' must be greater than one. If "CV" is "resubstitution"'...
+            ' or a "resubstitution" type partition, "MCReps"'...
+            'must be one (the default).']);
+    end
+    cvReps = fix(cvReps);
+    
     %Cross-validation
     if isnumeric(cv) && isscalar(cv) && (cv==round(cv)) && (0<cv)
         %cv is a kfold value. Create a cvpartition.
@@ -662,7 +671,7 @@ function [B, FitInfo] = PQSQRegularRegr(X, Y, varargin)
             cv = 'resubstitution';
         elseif strcmpi(cv.Type,'leaveout')
             error('Type "leaveout" of cvpartition in parameter "CV" is forbidden.');
-        elseif strcmpi(cv.Type,'holdout') && mcreps<=1
+        elseif strcmpi(cv.Type,'holdout') && cvReps <= 1
             error('MCReps must be greater than 1 for "holdout" type of cvpartition');
         end
     elseif strncmpi(cv,'resubstitution',length(cv))
