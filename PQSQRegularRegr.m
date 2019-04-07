@@ -700,12 +700,9 @@ function [B, FitInfo] = PQSQRegularRegr(X, Y, varargin)
     end
     
     %Normalize majorants
-    tmp = 0;
+    tmp = sum([majorants{:, 2}]);
     for k=1:nMajorants
-        tmp = tmp + majorants{k,2};
-    end
-    for k=1:nMajorants
-        majorants{k,2} = majorants{k,2}/tmp;
+        majorants{k, 2} = majorants{k, 2} / tmp;
     end
     
     %Calculate intervals
